@@ -9,7 +9,7 @@ import CallPage from "./pages/CallPage.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
 import OnboardingPage from "./pages/OnboardingPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
-import Socket from "./components/Socket.jsx";
+
 
 import { Toaster } from "react-hot-toast";
 
@@ -17,7 +17,7 @@ import PageLoader from "./components/PageLoader.jsx";
 import useAuthUser from "./hooks/useAuthUser.js";
 import Layout from "./components/Layout.jsx";
 import { useThemeStore } from "./store/useThemeStore.js";
-import Challenges from "./pages/Challenges.jsx";
+// import Challenges from "./pages/Challenges.jsx";
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
@@ -130,8 +130,8 @@ const App = () => {
             )
           }
         />
-        <Route path="/socket" element={<Socket />} />
-        <Route path="/challenges" element={<Challenges />} />
+        {/* <Route path="/socket" element={<Socket />} /> */}
+        {/* <Route path="/challenges" element={<Challenges />} /> */}
       </Routes>
 
 

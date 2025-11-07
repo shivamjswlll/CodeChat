@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import useAuthUser from "../hooks/useAuthUser";
 import { useQuery } from "@tanstack/react-query";
 import { getStreamToken } from "../lib/api";
-import {socket} from "../components/Socket";
+
 
 import {
   Channel,
@@ -27,39 +27,7 @@ const ChatPage = () => {
   const [room, setRoom] = useState(null);
   const navigate = useNavigate();
 
-  const handleCreateChallenge = () => {
-    const roomIdentity = new Date().toISOString();
-    setCall(false);
-      socket.emit("createRoom", {
-        "roomIdentity" : roomIdentity,
-        "opponentId" : targetUserId
-      });
-  }
-
-  const JoinChallenge = () =>{
-    socket.emit("joinRoom", {
-      "roomIdentity" : room
-    });
-    
-    navigate("/challenges");
-  }
-
-  socket.on("incomingChallenge", ({roomIdentity}) => {
-    console.log("Received a challenge");
-    setRoom(roomIdentity);
-  });
-
-  socket.on("createRoomFailed", ({message}) => {
-      console.log(message);
-    });
-
-    socket.on("roomCreated", ({message}) => {
-      console.log(message);
-    });
-
-    socket.on("game_can_start", () => {
-      navigate("/challenges");
-    })
+ 
 
   const [chatClient, setChatClient] = useState(null);
   const [channel, setChannel] = useState(null);
