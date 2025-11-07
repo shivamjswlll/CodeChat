@@ -51,11 +51,12 @@ export async function signup(req, res) {
     });
 
     res.cookie("jwt", token, {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      httpOnly: true, // prevent XSS attacks,
-      sameSite: "strict", // prevent CSRF attacks
-      secure: process.env.NODE_ENV === "production",
-    });
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+  httpOnly: true,
+  secure: true,         // always true in production (HTTPS on Render)
+  sameSite: "none",     // required for cross-site cookie
+});
+
 
     res.status(201).json({ success: true, user: newUser });
   } catch (error) {
@@ -82,12 +83,13 @@ export async function login(req, res) {
       expiresIn: "7d",
     });
 
-    res.cookie("jwt", token, {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      httpOnly: true, // prevent XSS attacks,
-      sameSite: "strict", // prevent CSRF attacks
-      secure: process.env.NODE_ENV === "production",
-    });
+   res.cookie("jwt", token, {
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  httpOnly: true,                  // prevents JS access
+  secure: true,                    // required on HTTPS (Render)
+  sameSite: "none",                // allows cross-site cookie
+});
+
 
     res.status(200).json({ success: true, user });
   } catch (error) {
@@ -97,9 +99,14 @@ export async function login(req, res) {
 }
 
 export function logout(req, res) {
-  res.clearCookie("jwt");
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
   res.status(200).json({ success: true, message: "Logout successful" });
 }
+
 
 export async function onboard(req, res) {
   try {
